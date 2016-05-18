@@ -1,0 +1,80 @@
+# When you're ready to move to spring-cloud-config then this file should be served by that service
+# Eureka server has been added and is available as a sibling to the rest module.
+
+spring:
+  application.version: @pom.version@
+
+server:
+  port: 8080
+
+# When Eureka is available set accordingly
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8071/eureka/
+  instance:
+    status-page-url: ${management.contextPath}/info
+    health-check-url-path: ${management.contextPath}/health
+
+management.contextPath: /admin
+#management.port: 8081
+#management.security.enabled: true
+#security.basic.enabled: true
+#security.user.name: admin
+#security.user.password: admin
+
+# Custom actuators
+exception.interceptor.queue.size: 50
+exception.interceptor.endpoint: exceptions
+exception.interceptor.stacktrace: true
+trace.interceptor.queue.size: 50
+trace.interceptor.endpoint: requests
+
+
+# Trace Request JPA requires these settings
+# Please modify for your desired DB. Currently uses an inmemory instance of HSQL.
+trace-request:
+  hibernate:
+    hbm2ddl.auto: create-drop
+    dialect: org.hibernate.dialect.HSQLDialect
+  jdbc:
+    driverClassName: org.hsqldb.jdbc.JDBCDriver
+    url: jdbc:hsqldb:file:request
+    user: SA
+    pass:
+
+# Properties used by /admin/info and /admin/build endpoints.
+info.app.name: ${spring.application.name}
+info.app.profile: ${spring.profiles.active}
+info.app.maven.version: @pom.version@
+info.app.maven.artifactId: @pom.artifactId@
+info.app.maven.groupId: @pom.groupId@
+
+# If you wish to disable hystrix uncomment
+#feign.hystrix.enabled: false
+
+# Default feign requests run in different threads
+hystrix.command.default.execution.isolation.strategy: SEMAPHORE
+
+# Please remove this setting - added for demo, see AccountClient
+account.service.name: ${spring.application.name}
+
+---
+spring:
+  profiles: development
+
+
+---
+spring:
+   profiles: test
+
+
+---
+spring:
+   profiles: production
+
+
+
+
+
+

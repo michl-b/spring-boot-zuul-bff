@@ -1,0 +1,32 @@
+---
+spring:
+  application:
+    name: zuul
+
+# If you want to store these settings in the config server prefixed with [spring, e.g. spring.cloud.config]
+#  cloud:
+#    config:
+#      uri: http://localhost:8070
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    status-page-url: ${management.contextPath}/info
+    health-check-url-path: ${management.contextPath}/health
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8071/eureka/
+
+# When running outside of eureka set this to false and remove the eureka settings above
+#ribbon.eureka.enabled: false
+
+server:
+  port: 8081
+
+# Add the paths for the Gateway
+# XXX is the name of your app, e.g. X-rest and YYY is the endpoint you'd access
+zuul:
+  ignoredPatterns: /**/admin/**
+#  routes.product-be-rest:
+#    path: /product-be-rest/**
+#    url: http://phoenix-be-product.cfapps.io/

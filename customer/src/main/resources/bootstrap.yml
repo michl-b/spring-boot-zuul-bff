@@ -1,0 +1,9 @@
+---
+spring:
+  profiles:
+    active: development
+  application:
+    name: customer
+
+# If you wish to use Spring Cloud Config then set the path accordingly
+#spring.cloud.config.uri: http://localhost:8070
