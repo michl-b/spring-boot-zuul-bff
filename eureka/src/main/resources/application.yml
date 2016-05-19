@@ -18,3 +18,7 @@ eureka:
 
   instance:
     hostname: eureka
+
+logging:
+  level:
+    org.springframework.cloud.eureka: DEBUG
